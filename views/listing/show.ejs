@@ -1,0 +1,31 @@
+<%layout("/layout/boilerPlate")-%>
+    <div class="row mt-2" >
+        <div class="col-6 offset-3">
+        <h3>Listing Details</h3>
+            <div class="card">
+                <img src="<%=data.img%>" class="card-img-top show-img mt-2" alt="...">
+                <div class="card-body">
+                    <p class="card-text mt-1"><b><%=data.title%></b>
+                    <br>
+                    <%=data.description%>
+                    <br>
+                    <% if (data.price !== undefined) { %>
+                        &#x20b9;<%= data.price.toLocaleString("en-IN") %>
+                    <% } else { %>
+                        Price not available
+                    <% } %>
+                    <br>
+                    <%=data.location%>
+                    <br>
+                    <%=data.country%>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="btns">
+            <a href="/listing/<%=data._id%>/edit" class="offset-3 edit-btn btn"><b>Edit</b></a>
+            <form action="/listing/<%=data._id%>?_method=DELETE" method="post">
+                <button class="offset-4 btn btn-dark"><b>Delete</b></button>
+            </form>
+        </div>
+    </div>

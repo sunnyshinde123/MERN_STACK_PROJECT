@@ -7,14 +7,14 @@
     <div class="row row-cols-xl-4 row-cols-lg-3  row-cols-md-2 row-cols-sm-1 card-box offset-0.5 mt-3">
         <%for(let listing of data){%>
             <a href="/listing/<%=listing._id%>" class="listing-link">
-                <div class="card col">
+                <div class="card listing-card col">
                     <img src="<%=listing.img%>" class="card-img-top" alt="img" style="height: 20rem;">
                     <div class="card-img-overlay">
                     </div>
                     <div class="card-body">
                         <p class="card-text">
                             <b><%=listing.title%></b><br>
-                            <%= listing.price.toLocaleString("en-IN") %>
+                            &#x20b9;<%= listing.price.toLocaleString("en-IN") %>/night
                         </p>
                     </div>
                 </div>

@@ -1,11 +1,10 @@
 <%layout("/layout/boilerPlate")-%>
-    <div class="row mt-2" >
+    <div class="row mt-3 mb-3">
         <div class="col-6 offset-3">
-        <h3>Listing Details</h3>
-            <div class="card">
+        <h3><%=data.title%></h3>
+            <div class="card listing-card">
                 <img src="<%=data.img%>" class="card-img-top show-img mt-2" alt="...">
                 <div class="card-body">
-                    <p class="card-text mt-1"><b><%=data.title%></b>
                     <br>
                     <%=data.description%>
                     <br>
@@ -28,4 +27,38 @@
                 <button class="offset-4 btn btn-dark"><b>Delete</b></button>
             </form>
         </div>
+        <div class="col-6 offset-3">
+            <form action="/listing/<%=data._id%>/review" method="post" novalidate class="needs-validation">
+                <hr>
+                <h4>Leave a Review</h4>
+                <div>
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="range" id="rating" name="review[rating]" class="form-range" min="1" max="5">
+                </div>
+                <div>
+                    <label for="comment" class="form-label">Comment..</label>
+                    <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please write few words for review</div>
+                </div><br>
+                <button class="btn btn-outline-dark">Submit</button>
+            </form>
+            <hr>
+            <p><b>All Reviews</b></p>
+            <div class="row">
+                <%for(let review of data.review){%>
+                    <div class="card review-card col-5 mb-3 ms-3" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Steave Jobs</h5>
+                            <p class="card-text"><%=review.comment%></p>
+                            <p class="card-text"><%=review.rating%> stars</p>
+                            <form action="/listing/<%=data._id%>/review/<%=review._id%>?_method=DELETE" class="mb-3" method="POST">
+                                <button class="btn btn-sm btn-dark">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <%}%>
+            </div>
+        </div>
     </div>
+
+    

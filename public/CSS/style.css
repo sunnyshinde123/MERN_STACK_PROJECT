@@ -60,7 +60,7 @@ body{
 
 /* card-section */
 
-.card{
+.listing-card{
     border: none !important;
     margin-bottom: 2rem !important;
     margin-left: 0.2rem !important;
@@ -128,4 +128,8 @@ label{
     height: 30px;
     width: 30px;
 }
+
+/*review*/
+
+
 

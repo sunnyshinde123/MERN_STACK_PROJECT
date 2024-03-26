@@ -166,7 +166,9 @@ app.delete("/listing/:id/review/:reviewId", wrapAsync(async(req, res)=>{
 // })
 
 app.use((err, req, res, next) => {
-    console.log(err.name);
-    let { status = 500, message = "Page not found" } = err;
-    res.status(status).render("error.ejs", { err });
-});
+    if (err.status === 404) {
+      res.status(404).render("error.js");
+      res.set("Content-Type", "text/plain");
+      res.send("Page not found.");
+    }
+  });

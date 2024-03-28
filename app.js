@@ -13,6 +13,10 @@ const listingRoute=require("./routes/listing.js");
 const reviewRoute=require("./routes/review.js");
 const session=require("express-session");
 const flash=require("connect-flash");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./model/user.js");
+const userRoute=require("./routes/user.js");
 
 
 app.set("view engine", "ejs");
@@ -40,6 +44,11 @@ const sessionOptions={
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 main().then(()=>{
@@ -58,6 +67,16 @@ app.listen(5050, ()=>{
     console.log("Successfully Connected to the port of 5050");
 })
 
+app.get("/demo", async(req, res)=>{
+    let user1=new User({
+        email:"Sunnyshinde157@gmail.com",
+        username:"Sunny123"
+    })
+
+    let result=await User.register(user1, "apna123");
+    res.send(result);
+})
+
 app.get("/",wrapAsync((req, res)=>{
     res.send("Welcome");
 }))
@@ -70,6 +89,7 @@ app.use((req, res, next)=>{
 
 app.use("/listing", listingRoute);
 app.use("/listing/:id/review", reviewRoute);
+app.use("/", userRoute);
 
 
 // app.get("/testListing", wrapAsync(async (req, res)=>{

@@ -13,8 +13,12 @@ const reviewSchema=new Schema({
     createdAt:{
         type:Date,
         default: new Date(Date.now()).toString(),
+    },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:"User",
     }
-})
+});
 
 
 const Review=mongoose.model("Review", reviewSchema);

@@ -5,21 +5,12 @@ const ExpressError=require("../utility/ExpressError.js");
 const {reviewSchemaJoi}=require("../schema.js");
 const Review=require("../model/review.js");
 const Listing=require("../model/listing.js");
-const { isLoggedIn }=require("../middleware.js");
+const { isLoggedIn, validateReview }=require("../middleware.js");
 
 
 
 
 
-const validateReview=(req, res, next)=>{
-    let {error}=reviewSchemaJoi.validate(req.body);
-    if(error){
-        let errMsg=error.details.map((el)=> el.message).join(",");
-        throw new ExpressError(404, errMsg);
-    }else{
-        next();
-    }
-}
 
 //review post route
 router.post("/", isLoggedIn, validateReview, wrapAsync(async(req, res)=>{

@@ -2,6 +2,9 @@ const express=require("express");
 const router=express.Router();
 const User=require("../model/user.js");
 const passport = require("passport");
+const {isLoggedIn}=require("../middleware.js");
+const {redirectUrl}=require("../middleware.js");
+
 
 //signUp page login
 router.get("/signup", (req, res)=>{
@@ -19,8 +22,13 @@ router.post("/signup",async(req, res)=>{
         })
         let result= await User.register(user1, password);
         console.log(result);
-        req.flash("success", "Welcome to the wanderlust")
-        res.redirect("/listing");
+        req.login(user1, (err)=>{
+            if(err){
+                return next(err);
+            }
+            req.flash("success", "Welcome to the wanderlust")
+            res.redirect("/listing");
+        })
     }catch(err){
         req.flash("error", `${err.message}, please go with login`);
         res.redirect("/login");
@@ -33,9 +41,10 @@ router.get("/login", (req, res)=>{
 })
 
 //post route logged in
-router.post("/login", passport.authenticate("local",{failureRedirect:"/login", failureFlash:true}), async(req, res)=>{
+router.post("/login", redirectUrl, passport.authenticate("local",{failureRedirect:"/login", failureFlash:true}), async(req, res)=>{
     req.flash("success", "welcome to wanderlust");
-    res.redirect("/listing");
+    let redirecturl=res.locals.redirectUrl ? res.locals.redirectUrl : "/listing";
+    res.redirect(redirecturl);
 });
 
 
